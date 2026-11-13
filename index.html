@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>예약 페이지로 이동 중</title>
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: 'Noto Sans KR', system-ui, sans-serif; background: #F6F5F1; color: #1d2421; text-align: center; }
+    main { padding: 24px; max-width: 420px; }
+    h1 { font-size: 22px; margin: 0 0 12px; }
+    p { font-size: 17px; line-height: 1.6; margin: 0 0 20px; }
+    a.btn { display: block; padding: 18px; border-radius: 14px; background: #0F6B57; color: #fff; font-size: 20px; font-weight: 700; text-decoration: none; }
+    small { display: block; margin-top: 16px; color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 id="title">예약 페이지로 이동하고 있어요</h1>
+    <p id="body">잠시만 기다려 주세요.</p>
+    <a class="btn" id="go" href="#">예약 페이지 열기</a>
+    <small id="help" hidden>자동으로 열리지 않으면 위 버튼을 누르거나, 오른쪽 아래 메뉴에서 '다른 브라우저로 열기'를 눌러 주세요.</small>
+  </main>
+  <script>
+    /*
+     * 예약 페이지 중계 페이지.
+     * 카카오톡 안에서 연 링크는 앱 안 브라우저로 열려, 구글 앱스 스크립트 페이지가 '현재 파일을 열 수 없습니다'로 막힌다.
+     * 이 페이지는 카카오톡 안이면 휴대폰의 기본 브라우저(크롬·사파리 등)로 다시 열어 주고, 그 밖의 환경이면 바로 예약 페이지로 보낸다.
+     *
+     * 고칠 곳은 아래 TARGET 한 줄뿐이다. 고객용 배포의 웹 앱 주소(…/exec)를 넣는다.
+     */
+    var TARGET = 'https://script.google.com/macros/s/AKfycbx2cx-9Sil3OYDYiPuqXQn-gNbTEj8PGl9-XTChZKbfHfjONdOzGwfu6AlasQz3Eafa/exec';
+
+    var inKakao = /KAKAOTALK/i.test(navigator.userAgent);
+    var go = document.getElementById('go');
+    var external = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(TARGET);
+    go.href = inKakao ? external : TARGET;
+    if (inKakao) {
+      document.getElementById('help').hidden = false;
+      location.href = external;
+    } else {
+      location.replace(TARGET);
+    }
+  </script>
+  <noscript><p><a href="https://script.google.com/macros/s/AKfycbx2cx-9Sil3OYDYiPuqXQn-gNbTEj8PGl9-XTChZKbfHfjONdOzGwfu6AlasQz3Eafa/exec">예약 페이지 열기</a></p></noscript>
+</body>
+</html>
